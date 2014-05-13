@@ -143,6 +143,7 @@ module.exports = function(grunt) {
 						cwd:'<%= pkg.version %>/',
 						src: [
 							'**/*.css',
+							'**/img/*',
 							'!build/**/*.css',
 							'!demo/**/*.css'
 						], 
@@ -157,6 +158,7 @@ module.exports = function(grunt) {
             'all': {
                 files: [
 					'<%= pkg.version %>/**/*.js',
+                    '<%= pkg.version %>/**/img/*',
 					'<%= pkg.version %>/src/**/*.css',
 					'!<%= pkg.version %>/build/**/*'
 				],

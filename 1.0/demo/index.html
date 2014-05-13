@@ -9,25 +9,291 @@
 <body>
 <h2>KissyPortal的demo</h2>
 
-<script>
-    var S = KISSY;
-    if (S.Config.debug) {
-        var srcPath = "../../";
-        S.config({
-            packages:[
-                {
-                    name:"gallery/kissy-portal",
-                    path:srcPath,
-                    charset:"utf-8",
-                    ignorePackageNameInUri:true
-                }
-            ]
-        });
-    }
+<div id="J_PortalDemo" style="margin:0 auto;width:1280px">
+    <div title="折线图" pos="1,1" width="400" height="300">
+        <div id="J_LineChartDemo" style="margin:0px auto;height:300px;width:400px;"></div>
+    </div>
+    <div title="柱状图" pos="1,2" width="400" height="300">
+        <div id="J_BarChartDemo" style="margin:0px auto;height:280px;width:400px;"></div>
+    </div>
+    <div title="饼图" pos="1,3" width="400" height="300">
+        <div id="J_PieChartDemo" style="margin:0px auto;height:300px;width:400px;"></div>
+    </div>
+    <div title="demo4" pos="2,1" closable="false">
+        <div style="padding: 0px 10px 20px 10px">
+            <h1>demo4</h1>
 
-    S.use('gallery/kissy-portal/1.0/index', function (S, KissyPortal) {
-          new KissyPortal();
-    })
+            <h2>你可以拖我咯</h2>
+
+            <div>
+                Hello,the world!
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+var S = KISSY;
+if (S.Config.debug) {
+    var srcPath = "../../";
+    S.config({
+        packages: [
+            {
+                name: "gallery/kissy-portal",
+                path: srcPath,
+                charset: "utf-8",
+                ignorePackageNameInUri: true
+            }
+        ]
+    });
+}
+
+KISSY.use('gallery/kissy-portal/1.0/index,gallery/kcharts/1.3/linechart/index,gallery/kcharts/1.3/barchart/index,gallery/kcharts/1.2/piechart/index',
+        function (S, KissyPortal, LineChart, BarChart, PieChart) {
+            new KissyPortal({
+                id: "J_PortalDemo",
+                cols: 3,
+                colWidth: 400
+            });
+
+            //折线图
+            var linechart = new LineChart({
+                renderTo: "#J_LineChartDemo",
+                title: {
+                    content: "1周消费记录"
+                },
+                anim: {},
+                subTitle: {
+                    content: "week fee record"
+                },
+                xAxis: {
+                    text: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
+                },
+                yAxis: {
+                    min: 0
+                },
+                series: [
+                    {
+                        data: [100, 4000, 200, 400, 144, 234, 700]
+                    }
+                ],
+                tip: {
+                    template: "总支出：<span>{{y}}</span> 元<br/>"
+                }
+            });
+
+            //饼图
+            var barchart = new BarChart({
+                renderTo: "#J_BarChartDemo",
+                title: {
+                    content: "Monthly Average Rainfall",
+                    css: {
+                    }
+                },
+                anim: {},
+                subTitle: {
+                    content: "Source: WorldClimate.com",
+                    css: {
+
+                    }
+                },
+                xLabels: {
+                },
+                yLabels: {
+                },
+                xAxis: {
+                    isShow: false,
+                    text: [
+                        'Jan',
+                        'Feb',
+                        'Mar',
+                        'Apr',
+                        'May',
+                        'Jun',
+                        'Jul',
+                        'Aug',
+                        'Sep',
+                        'Oct',
+                        'Nov',
+                        'Dec']
+                },
+                yAxis: {
+                    isShow: false,
+                    min: 0
+                },
+                series: [
+                    {
+                        text: 'Tokyo',
+                        data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+                    }
+                ],
+                legend: {
+                    isShow: true, y: -10
+                },
+                tip: {
+                    template: "{{text}} {{y}} mm",
+                    alignX: "right",
+                    css: {"border-color": "{COLOR}"},
+                    offset: {
+                        y: -10
+                    }
+                }
+            });
+            //饼图
+            var ms = 600,
+                    currentSet;//当前选中的sector
+            var piechart = new PieChart({
+                renderTo: '#J_PieChartDemo',
+                rs: 60,	  // 半径
+                cx: 120,  // 圆心点 画布位置
+                padding: 5,
+                data: [
+                    {"data": 30, "label": "30%", "tip": "per"},
+                    {"data": 30, "label": "30%", "tip": "per"},
+                    {"data": 40, "label": "40%", "tip": "percent"},
+                    {"data": 50, "label": "49%", "tip": "percent"}
+                ],
+                colors: [
+                    {DEFAULT: '#B41800'},
+                    {DEFAULT: '#3AB6D0'},
+                    {DEFAULT: '#FF6203'},
+                    {DEFAULT: '#5ACB73'}
+                ],  // 颜色配置
+                labelIndside: true,   //label标注在扇形内
+                anim: {
+                    type: 'sector',
+                    easing: 'bounceOut',
+                    duration: 800
+                },
+                label: false, // 展现 数据 label
+                tip: {
+                    boundryDetect: true,
+                    tpl: "{{tip}} {{percent*100+'%'}}"
+                },
+                labelline: {	// 线条的属性
+                    attr: {
+                        stroke: "red"
+                    }
+                },
+                "legend": {
+                    align: "rt", //t r b l
+                    offset: [40, 40], // list提示 xy margin间距
+                    globalConfig: {
+                        icontype: "square",
+                        iconsize: [2, 2],
+                        interval: 15, //legend之间的间隔
+                        iconright: 5, //icon后面的空白
+                        showicon: true //默认为true. 是否显示legend前面的小icon——可能用户有自定义的需求
+                    },
+                    //每次绘制“文本描述”的时候调用，返回span的样式
+                    spanAttrHook: function (index) {
+                        return {
+                            color: "#333"
+                        }
+                    },
+                    // 右侧list 展现文本数组 静态数据 非组合
+                    config: [
+                        {"text": "34% 天猫首聚焦"},
+                        {"text": "25% 天猫首聚焦2"},
+                        {"text": "45% 天猫首聚焦3"},
+                        {"text": "13% 天猫首聚焦4"}
+                    ]
+                }
+            });
+            // 事件监控
+            piechart.on("afterRender", drawCustomLabel);
+            piechart.on("mouseover", enter);
+            piechart.on("mouseout", leave);
+
+            //鼠标hover 饼图 区块动画
+            function enter(e) {
+                var sector = e.sector,
+                        set = sector.get('set'),
+                        middleangle = sector.get('middleangle'),
+                        angel = middleangle * Math.PI / 180,
+                        cx = this.get("cx"),
+                        cy = this.get("cy"),
+                        unit = 10,
+                        x = unit * Math.cos(angel),
+                        y = -unit * Math.sin(angel);
+
+                if (currentSet) {
+                    currentSet.animate({
+                        transform: ""
+                    }, ms, "elastic")
+                }
+
+                sector.set("enlarged", true);
+                set.stop().animate({
+                    transform: 's1.1 1.1 ' + cx + ' ' + cy
+                }, ms, 'elastic')
+                currentSet = set;
+            }
+
+            // 鼠标离开 饼图 区块动画
+            function leave(e) {
+                var sector = e.sector,
+                        set = sector.get('set')
+                sector.set("enlarged", false);
+                set.stop().animate({
+                    transform: ""
+                }, ms, "elastic")
+            }
+
+            // 文字外边展示方法
+            function drawCustomLabel() {
+                var sectors = piechart.get("$sectors"),
+                        paper = piechart.get("paper");
+
+                // 设置图标 外边展现 方法
+                S.each(sectors, function (sectorObj) {
+                    var i = sectorObj.get("groupIndex"),
+                            isleft = sectorObj.get("end") < -90,
+                            framedata = sectorObj.get("framedata");
+
+                    if (i == 0) {
+                        var x = sectorObj.get("middlex"),
+                                y = sectorObj.get("middley");
+
+                        if (isleft) {
+                            x -= 40;
+                        } else {
+                            x += 40
+                        }
+
+                        paper.text(x, y, (framedata.percent * 100).toFixed(2) + "%");
+                    }
+                });
+
+            }
+
+            // 鼠标hover 关联饼图 区块动画
+            piechart.on("afterLegendRender", function () {
+                var legend = piechart.get("legend"),
+                        sectors = piechart.get("$sectors");
+
+                legend.on("click", function (e) {
+                    var icon = e.icon,
+                            text = e.text,
+                            index = e.index;
+
+                    var sectorObj = sectors[index],
+                            currentSet = sectorObj.get("set"),
+                            enlarged = sectorObj.get("enlarged"),
+                            evt;
+
+                    if (enlarged) {
+                        evt = "mouseout"
+                    } else {
+                        evt = "mouseover"
+                    }
+
+                    sectorObj.set("enlarged", !enlarged);
+                    sectorObj.fire(evt);
+                });
+
+            });
+        });
 </script>
 </body>
 </html>
