@@ -1,0 +1,2 @@
+/*!build time : 2014-05-13 3:44:21 PM*/
+KISSY.add("gallery/kissy-portal/1.0/index",function(a,b,c){function d(a){var b=this;d.superclass.constructor.call(b,a)}b.all;return a.extend(d,c,{},{ATTRS:{}}),d},{requires:["node","base"]});

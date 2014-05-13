@@ -1,0 +1,17 @@
+{
+    "name": "kissy-portal",
+    "comName":"KissyPortal",
+    "version": "1.0",
+    "desc": "",
+    "tag":"portal 后台应用或企业门户常用组件,kissy-mini",
+    "githubName":"jinping.ljp",
+    "author": {
+        "name": "铉铭",
+        "email": "jinping.ljp@alibaba-inc.com",
+        "page": ""
+    },
+	"flexComboPort":"8088",
+	"reserveServerPort":"8087",
+    "type": "kissy-gallery",
+    "type-url": "http://gallery.kissyui.com/guide"
+}
